@@ -70,6 +70,8 @@ func (s *Service) ReadAll(ingredients string) (data entity.Recipes, errCode stri
 //SortIngredients -
 func (s *Service) SortIngredients(ingredients string) []string {
 	explodeIngredients := strings.Split(ingredients, ",")
+
+	fmt.Println(explodeIngredients)
 	for i := range explodeIngredients {
 		explodeIngredients[i] = strings.TrimSpace(explodeIngredients[i])
 	}

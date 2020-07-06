@@ -4,6 +4,7 @@ import (
 	"deliverymuch/pkg/core/recipe"
 	"deliverymuch/pkg/router"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +17,13 @@ var messages = map[string]string{
 
 func getRecipes(ctx *router.Context) (int, *router.Response) {
 	ingredients := ctx.Queries["i"].(string)
+	splitIngredients := strings.Split(ingredients, ",")
+
+	//TODO - Será que deveria retornar erro quando passar o máximo de ingredientes?
+	if len(splitIngredients) > 3 {
+		ingredients = strings.Join(splitIngredients[0:3], ",")
+	}
+
 	u, errCode, err := service.ReadAll(ingredients)
 	if err != nil {
 		return http.StatusNotFound, router.NewResposeError(err.Error(), errCode)
